@@ -21,6 +21,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN sudo apt-get update && sudo apt-get -y install yarn
 
+RUN nvm install node
+
 EXPOSE 1337 3000 4200 5000 9000 8003
 
 RUN sudo npm i --unsafe-perm -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha mocha-cli mochawesome speedtest-net webpack
