@@ -1,7 +1,7 @@
 FROM eclipse/stack-base:debian
 
 RUN sudo apt-get update && \
-    sudo apt-get -y install build-essential libkrb5-dev gcc make ruby-full rubygems debian-keyring python2.7 && \
+    sudo apt-get -y install build-essential libkrb5-dev gcc make ruby-full rubygems debian-keyring python2.7 apt-transport-https ca-certificates && \
 #    sudo gem install -​-no-document sass:3.4.22 && \
 #    sudo gem install -​-no-document compass && \
     sudo gem install sass:3.4.22 && \
@@ -19,11 +19,11 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-RUN sudo apt update && sudo apt -y install yarn
+RUN sudo apt-get update && sudo apt-get -y install yarn
 
 EXPOSE 1337 3000 4200 5000 9000 8003
 
-RUN sudo npm i --unsafe-perm -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha mocha-cli mochawesome speedtest-net puppeteer webpack
+RUN sudo npm i --unsafe-perm -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha mocha-cli mochawesome speedtest-net webpack
 # -"npm i" is failing.- /home/user/ does not exist
 # RUN sudo chown -R $USER:$(id -gn $USER) /home/user/.config
 
