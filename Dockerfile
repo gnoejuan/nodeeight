@@ -12,7 +12,13 @@ RUN sudo apt-get update && \
     sudo rm -rf /var/lib/apt/lists/*
 
 # following npmjs' advice on how to avoid EACCESS errors: https://github.com/creationix/nvm/blob/master/README.md#installation
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+ENV NVM_VERSION v0.33.8
+ENV NODE_VERSION v8.9.4
+ENV /usr/local/nvm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 # RUN wget -qO- https://deb.nodesource.com/setup_8.x | sudo -E bash -
 # RUN sudo apt update && sudo apt -y install nodejs
 # RUN sudo apt-get install -y build-essential
@@ -21,7 +27,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN sudo apt-get update && sudo apt-get -y install yarn
 
-RUN nvm install node
+# RUN nvm install node
 
 EXPOSE 1337 3000 4200 5000 9000 8003
 
