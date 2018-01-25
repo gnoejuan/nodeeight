@@ -12,13 +12,23 @@ RUN sudo apt-get update && \
     sudo rm -rf /var/lib/apt/lists/*
 
 # following npmjs' advice on how to avoid EACCESS errors: https://github.com/creationix/nvm/blob/master/README.md#installation
-ENV NVM_VERSION v0.33.8
-ENV NODE_VERSION v8.9.4
-ENV NVM_DIR /usr/local/nvm
+ENV NVM_VERSION=v0.33.8
+ENV NODE_VERSION=v8.9.4
+ENV NVM_DIR=$HOME/.nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
-RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
-ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+RUN /bin/bash -i -c "source $NVM_DIR/nvm.sh && nvm alias default $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+
+RUN bash -c 'source $HOME/.nvm/nvm.sh   && \
+
+    nvm install node                    && \
+
+    npm i -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha-cli mochawesome speedtest       && \
+
+    npm install --prefix "$HOME/.nvm/"'
+# RUN npm i -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha mocha-cli mochawesome speedtest
+# RUN sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh
+# ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
+# ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 # RUN wget -qO- https://deb.nodesource.com/setup_8.x | sudo -E bash -
 # RUN sudo apt update && sudo apt -y install nodejs
 # RUN sudo apt-get install -y build-essential
@@ -27,11 +37,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 RUN sudo apt-get update && sudo apt-get -y install yarn
 
-# RUN nvm install node
-
 EXPOSE 1337 3000 4200 5000 9000 8003
 
-RUN sudo npm i --unsafe-perm -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha mocha-cli mochawesome speedtest-net webpack
 # -"npm i" is failing.- /home/user/ does not exist
 # RUN sudo chown -R $USER:$(id -gn $USER) /home/user/.config
 
