@@ -1,17 +1,20 @@
 FROM eclipse/stack-base:debian
 
 RUN sudo apt-get update && \
-    sudo apt-get -y install build-essential libkrb5-dev gcc make ruby-full rubygems debian-keyring python2.7 apt-transport-https ca-certificates && \
+    sudo apt-get -y install build-essential libkrb5-dev gcc make apt-transport-https ruby-full rubygems debian-keyring python2.7 ca-certificates && \
 #    sudo gem install -​-no-document sass:3.4.22 && \
 #    sudo gem install -​-no-document compass && \
     sudo gem install sass:3.4.22 && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
+    sudo apt-get update && sudo apt-get -y install yarn && \ 
     sudo gem install compass && \
     sudo apt-get clean && \
     sudo apt-get -y autoremove && \
     sudo apt-get -y clean && \
     sudo rm -rf /var/lib/apt/lists/*
 
-# following npmjs' advice on how to avoid EACCESS errors: https://github.com/creationix/nvm/blob/master/README.md#installation
+# following npmjs advice on how to avoid EACCESS errors: https://github.com/creationix/nvm/blob/master/README.md#installation
 ENV NVM_VERSION=v0.33.8
 ENV NODE_VERSION=v8.9.4
 ENV NVM_DIR=$HOME/.nvm
@@ -24,14 +27,10 @@ ENV NVM_DIR=$HOME/.nvm
 # RUN sudo apt update && sudo apt -y install nodejs
 # RUN sudo apt-get install -y build-essential
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-RUN sudo apt-get update && sudo apt-get -y install yarn
-
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
 RUN /bin/bash -i -c "source $NVM_DIR/nvm.sh && nvm alias default $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
 RUN bash -c 'source $HOME/.nvm/nvm.sh && \
-    npm i -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha-cli mocha speedtest && \
+    npm i -g pug-cli diff2html bower live-server http-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha-cli mocha speedtest && \
     npm install --prefix "$HOME/.nvm/"'
 
 EXPOSE 1337 3000 4200 5000 9000 8003
