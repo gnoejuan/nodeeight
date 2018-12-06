@@ -1,7 +1,7 @@
 FROM eclipse/stack-base:debian
 
 ENV NVM_VERSION=v0.33.8
-ENV NODE_VERSION=v8.9.4
+ENV NODE_VERSION=v8.14.0
 ENV NVM_DIR=$HOME/.nvm 
 
 RUN sudo apt-get update && \
