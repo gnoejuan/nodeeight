@@ -2,6 +2,7 @@ FROM eclipse/stack-base:debian
 
 ENV NVM_VERSION=v0.33.8
 ENV NODE_VERSION=v8.14.0
+ENV SASS_VERSION=3.7.2
 ENV NVM_DIR=$HOME/.nvm 
 
 RUN sudo apt-get update && \
@@ -17,7 +18,7 @@ RUN sudo apt-get update && \
     sudo apt-get install -y ruby-full rubygems debian-keyring python2.7 ca-certificates yarn && \
 #    sudo gem install -​-no-document sass:3.4.22 && \
 #    sudo gem install -​-no-document compass && \
-    sudo gem install sass:3.4.22 && \
+    sudo gem install sass:$SASS_VERSION && \
     sudo gem install compass && \
     sudo apt-get -y autoremove && \
     sudo apt-get -y clean && \
