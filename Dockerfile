@@ -23,7 +23,12 @@ RUN sudo apt-get update && \
     sudo apt-get -y autoremove && \
     sudo apt-get -y clean && \
     sudo rm -rf /var/lib/apt/lists/*
-
+RUN cd ~\
+    && git clone https://github.com/ryanoasis/nerd-fonts.git \
+    && cd nerd-fonts \
+    && ./install.sh \
+    && cd ~ \ 
+    && rm -rfv nerd-fonts
 # following npmjs advice on how to avoid EACCESS errors: https://github.com/creationix/nvm/blob/master/README.md#installation
 
 # RUN npm i -g pug-cli diff2html live-server npm-gui npm-home npmvet cost-of-modules bower-browser mocha mocha-cli mochawesome speedtest
