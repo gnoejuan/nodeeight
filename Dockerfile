@@ -6,7 +6,7 @@ ENV SASS_VERSION=3.7.2
 ENV NVM_DIR=$HOME/.nvm 
 
 RUN sudo apt-get update && \
-    sudo apt-get -y install build-essential libkrb5-dev gcc make apt-transport-https && \
+    sudo apt-get -y install build-essential libssl-dev libffi-dev libkrb5-dev gcc make apt-transport-https libreoffice && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
     curl -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash && \
